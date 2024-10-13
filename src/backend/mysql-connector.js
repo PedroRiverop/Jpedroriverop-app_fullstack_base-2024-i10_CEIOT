@@ -2,6 +2,7 @@
 
 var mysql = require('mysql');
 
+
 var connection = mysql.createConnection({
     host     : 'mysql-server',
     port     : '3306',
@@ -23,3 +24,4 @@ connection.connect(function(err) {
 module.exports = connection;
 
 //=======[ End of file ]=======================================================
+

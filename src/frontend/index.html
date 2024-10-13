@@ -5,6 +5,7 @@
       <link type="text/css" rel="stylesheet" href="./static/css/materialize.min.css"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="./static/css/styles.css"  media="screen,projection"/>
       <script type="text/javascript" src="./static/js/materialize.min.js"></script>
+
       <script src="js/user.js"></script>
       <script type="text/javascript" src="js/main.js"></script>
       
@@ -26,7 +27,7 @@
             <!-- Page Body -->
             <div class="container">
                 <br/>
-                <h1 id="tit">texto</h1>
+                <h1 id="tit">Usuario</h1>
                 <h3>Smart Home Web asdas!</h3>
               
                 <br/>
@@ -57,8 +58,19 @@
                                 </button>
                             </div>
                         </div>
+                        
                         <textarea id="textarea_1" class="materialize-textarea" style="height: 150px;" readonly></textarea>
                     </div>
+                        <div class="row">
+                            <form id="formularioAgregarDispositivo">
+                                <label for="nombreDispositivo">Nombre del dispositivo:</label>
+                                <input type="text" id="nombreDispositivo" name="nombreDispositivo"><br><br>
+                                <label for="descripcionDispositivo">Descripción del dispositivo:</label>
+                                <textarea id="descripcionDispositivo" name="descripcionDispositivo"></textarea><br><br>
+                                <button id="btnGuardarDispositivo">Guardar dispositivo</button>
+                            </form>
+                        </div>
+
                     <div class="col s12 m12 l6 xl6">
                         <ul  id="list" class="collection">
                           
@@ -74,6 +86,7 @@
                         <button id="btn" class="btn waves-effect waves-light button-view"  name="hello_button">PRESS ME</button>
                         <button id="btnBuscar" class="btn waves-effect waves-light button-view"  name="hello_button">Buscar</button>
                         <button id="btnPost" class="btn waves-effect waves-light button-view"  name="hello_button">Ejecutar POST</button>
+                        <button id="btnAgregarDispositivo">Agregar dispositivo</button>
                     </div>
                 </div>
             </div>	

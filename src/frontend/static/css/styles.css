@@ -17,3 +17,6 @@ main {
 .parafo{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+#formularioAgregarDispositivo {
+    display: none;
+  }

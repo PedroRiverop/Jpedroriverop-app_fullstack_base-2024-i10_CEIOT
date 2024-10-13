@@ -13,6 +13,9 @@ class Main implements EventListenerObject {
         btnLogin.addEventListener('click', this);
         let btnPost = this.recuperarElemento("btnPost");
         btnPost.addEventListener('click', this);
+        //Agregando el evento de clic al botón "Agregar dispositivo"
+        let btnAgregarDispositivo = this.recuperarElemento("btnAgregarDispositivo");
+        btnAgregarDispositivo.addEventListener('click', this);
     }
     handleEvent(object: Event): void {
         let idDelElemento = (<HTMLElement>object.target).id;
@@ -39,6 +42,10 @@ class Main implements EventListenerObject {
                 (<HTMLInputElement>object.target).disabled = true;
                 let divLogin = this.recuperarElemento("divLogin");
                 divLogin.hidden = true;
+
+                // Agregamos el nombre de usuario al <h1> con id tit
+                let titElement = document.getElementById('tit') as HTMLElement;
+                titElement.textContent = usuarioNombre;
             } else {
                 alert("El usuario o la contraseña son icorrectas");
             }
@@ -60,7 +67,12 @@ class Main implements EventListenerObject {
             xmlHttp.send(JSON.stringify(json));
 
 
-        } else {
+        } else if (idDelElemento === 'btnAgregarDispositivo') {
+            // código para el botón "Agregar dispositivo"
+            console.log('Botón "Agregar dispositivo" clicado');
+            const formulario = document.getElementById('formularioAgregarDispositivo') as HTMLElement;
+            formulario.style.display = 'block';
+          } else {
             let input = <HTMLInputElement>object.target;
             alert(idDelElemento.substring(3) + ' - ' + input.checked);
             let prenderJson = { id: input.getAttribute("idBd"), status: input.checked }

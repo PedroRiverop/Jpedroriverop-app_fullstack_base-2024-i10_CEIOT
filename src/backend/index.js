@@ -55,8 +55,6 @@ app.post('/device/',function(req,res){
     
 })
 
-
-
 app.get('/devices/', function(req, res, next) {
     
     devices = [
@@ -87,5 +85,6 @@ app.get('/devices/', function(req, res, next) {
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });
+
 
 //=======[ End of file ]=======================================================
