@@ -99,6 +99,25 @@ app.delete('/device/:id', (req, res) => {
     });
 });
 
+//Editar dispositivo
+app.put('/device/:id', (req, res) => {
+    const { name, description, type } = req.body;
+    const deviceId = req.params.id;
+
+    if (name && description && (type !== undefined && type !== null)) {
+        const query = "UPDATE Devices SET name = ?, description = ?, type = ? WHERE id = ?";
+        utils.query(query, [name, description, type, deviceId], (error, respuesta, fields) => {
+            if (error) {
+                res.status(409).json({ error: error.sqlMessage });
+            } else {
+                res.status(200).json({ mensaje: "Dispositivo actualizado exitosamente!" });
+            }
+        });
+    } else {
+        res.status(400).json({ error: "Datos incompletos para actualizar el dispositivo" });
+    }
+});
+
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });

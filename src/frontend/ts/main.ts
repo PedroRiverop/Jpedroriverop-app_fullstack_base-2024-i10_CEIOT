@@ -1,6 +1,8 @@
+declare var M: any;
 class Main implements EventListenerObject {
     private nombre: string = "matias";
     private users: Array<Usuario> = new Array();
+    private eventoAnterior: () => void = () => {};  // Declarar eventoAnterior
 
     constructor() {
         this.users.push(new Usuario('mramos', '123132'));
@@ -170,7 +172,10 @@ class Main implements EventListenerObject {
                             </div>
                              
                       </a>
-                         <button id="delete_${item.id}" class="btn-floating btn-small red" style="margin-left: 10px;">
+                        <button id="edit_${item.id}" class="btn-floating btn-small blue" style="margin-left: 10px;">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button id="delete_${item.id}" class="btn-floating btn-small red" style="margin-left: 10px;">
                             <i class="material-icons">close</i>
                         </button>
                       </li>`
@@ -186,6 +191,9 @@ class Main implements EventListenerObject {
                         //event listeners a los botones de eliminar
                         let btnEliminar = this.recuperarElemento(`delete_${item.id}`);
                         btnEliminar.addEventListener('click', () => this.eliminarDevice(item.id));
+                        //event listeners a los botones de editar
+                        let btnEditar = this.recuperarElemento(`edit_${item.id}`);
+                        btnEditar.addEventListener('click', () => this.abrirModalEdicion(item.id, item.name, item.description, item.type));
                     }
              
                 } else {
@@ -224,10 +232,74 @@ class Main implements EventListenerObject {
     
         xmlHttp.send();
     }
+    private abrirModalEdicion(id: number, name: string, description: string, type: number): void {
+        const modal = document.getElementById('modalEdit') as HTMLElement;
+        const nombreInput = document.getElementById('editNombreDispositivo') as HTMLInputElement;
+        const descripcionInput = document.getElementById('editDescripcionDispositivo') as HTMLInputElement;
+        const tipoInput = document.getElementById('editTipoDispositivo') as HTMLInputElement;
+
+        // Rellenar los campos del modal con los valores actuales
+        nombreInput.value = name;
+        descripcionInput.value = description;
+        tipoInput.value = type.toString();
+
+       // Eliminar cualquier listener previo
+        const btnAplicarCambios = document.getElementById('btnAplicarCambios');
+        if (btnAplicarCambios) {
+            btnAplicarCambios.removeEventListener('click', this.eventoAnterior);
+        }
+
+        // Agregar un nuevo listener
+        this.eventoAnterior = () => {
+            this.actualizarDevice(id, nombreInput.value, descripcionInput.value, parseInt(tipoInput.value));
+        };
+
+        if (btnAplicarCambios) {
+            btnAplicarCambios.addEventListener('click', this.eventoAnterior);
+        }
+
+
+        // Inicializar el modal con Materialize
+        const instance = M.Modal.getInstance(modal);
+        instance.open();
+    }
+    
+    private actualizarDevice(id: number, name: string, description: string, type: number): void {
+        console.log("Datos enviados:", { id, name, description, type });
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("PUT", `http://localhost:8000/device/${id}`, true);
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+    
+        xmlHttp.onreadystatechange = () => {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    console.log("Dispositivo actualizado exitosamente");
+                    this.buscarDevices();  // Refrescar la lista de dispositivos
+                } else {
+                    console.error("Error al actualizar el dispositivo", xmlHttp.responseText);
+                }
+            }
+        };
+    
+        const updatedDevice = {
+            name: name,
+            description: description,
+            type: type
+        };
+    
+        xmlHttp.send(JSON.stringify(updatedDevice));
+    }
+
 }
 window.addEventListener('load', () => {
     
     let main: Main = new Main();
     
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const elems = document.querySelectorAll('.modal');
+    M.Modal.init(elems);
 });
 
