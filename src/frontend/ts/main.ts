@@ -16,8 +16,12 @@ class Main implements EventListenerObject {
         //Agregando el evento de clic al botón "Agregar dispositivo"
         let btnAgregarDispositivo = this.recuperarElemento("btnAgregarDispositivo");
         btnAgregarDispositivo.addEventListener('click', this);
+        // Agregando el evento de clic al botón "mostrar/ocultar lista"
         let btnOcultarLista = this.recuperarElemento("btnOcultarLista");
         btnOcultarLista.addEventListener('click', this);
+        // Agregando el evento de clic al botón "Guardar dispositivo"
+        let btnGuardarDispositivo = this.recuperarElemento("btnGuardarDispositivo");
+        btnGuardarDispositivo.addEventListener('click', this); 
     }
     handleEvent(object: Event): void {
         let idDelElemento = (<HTMLElement>object.target).id;
@@ -85,7 +89,34 @@ class Main implements EventListenerObject {
             console.log('Botón "Agregar dispositivo" clicado');
             const formulario = document.getElementById('formularioAgregarDispositivo') as HTMLElement;
             formulario.style.display = 'block';
-          } else {
+        } else if (idDelElemento === 'btnGuardarDispositivo') {
+            const nombreDispositivo = (document.getElementById('nombreDispositivo') as HTMLInputElement).value;
+            const descripcionDispositivo = (document.getElementById('descripcionDispositivo') as HTMLTextAreaElement).value;
+        
+            const nuevoDispositivo = {
+                name: nombreDispositivo,
+                description: descripcionDispositivo,
+                state: 0, // Estado inicial
+                type: 1 // Ajusta según tus necesidades
+            };
+        
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", "http://localhost:8000/device/new", true);
+            xmlHttp.setRequestHeader("Content-Type", "application/json");
+        
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState === 4) {
+                    if (xmlHttp.status === 200) {
+                        console.log("Dispositivo agregado exitosamente", xmlHttp.responseText);
+                    } else {
+                        console.error("Error en la solicitud", xmlHttp.responseText);
+                    }
+                }
+            };
+        
+            // Envía los datos del dispositivo al servidor
+            xmlHttp.send(JSON.stringify(nuevoDispositivo));
+        } else {
             let input = <HTMLInputElement>object.target;
             alert(idDelElemento.substring(3) + ' - ' + input.checked);
             let prenderJson = { id: input.getAttribute("idBd"), status: input.checked }

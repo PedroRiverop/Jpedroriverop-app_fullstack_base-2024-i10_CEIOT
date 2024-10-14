@@ -66,6 +66,24 @@ app.get('/devices/', async (req, res, next) => {
       });
 });
 
+app.post('/device/new', (req, res) => {
+    const { name, description, state, type } = req.body;
+
+    if (name && description && state !== undefined && type !== undefined) {
+        // No incluir el campo 'id' en la consulta ya que es autoincremental
+        const query = "INSERT INTO Devices (name, description, state, type) VALUES (?, ?, ?, ?)";
+        utils.query(query, [name, description, state, type], (error, respuesta, fields) => {
+            if (error) {
+                res.status(409).json({ error: error.sqlMessage });
+            } else {
+                res.status(201).json({ mensaje: "Dispositivo creado exitosamente!" });
+            }
+        });
+    } else {
+        res.status(400).json({ error: "Datos incompletos para crear el dispositivo" });
+    }
+});
+
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });
