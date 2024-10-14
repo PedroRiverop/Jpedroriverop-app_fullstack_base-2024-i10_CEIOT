@@ -16,6 +16,8 @@ class Main implements EventListenerObject {
         //Agregando el evento de clic al botón "Agregar dispositivo"
         let btnAgregarDispositivo = this.recuperarElemento("btnAgregarDispositivo");
         btnAgregarDispositivo.addEventListener('click', this);
+        let btnOcultarLista = this.recuperarElemento("btnOcultarLista");
+        btnOcultarLista.addEventListener('click', this);
     }
     handleEvent(object: Event): void {
         let idDelElemento = (<HTMLElement>object.target).id;
@@ -25,6 +27,17 @@ class Main implements EventListenerObject {
         } else if (idDelElemento === 'btnBuscar') {
             console.log("Buscando!")
             this.buscarDevices();
+        } else if (idDelElemento === 'btnOcultarLista') {
+            console.log("Oculto");
+            const ul = this.recuperarElemento("list");
+            if (ul.style.display === 'none') {
+                ul.style.display = 'block';  // Muestra la lista
+                (<HTMLButtonElement>object.target).textContent = 'Ocultar dispositivos';
+            } else {
+                ul.style.display = 'none';  // Oculta la lista
+                (<HTMLButtonElement>object.target).textContent = 'Mostrar dispositivos';
+            }
+            
         } else if (idDelElemento === 'btnLogin') {
             console.log("login")
             let iUser = this.recuperarElemento("userName");
@@ -135,6 +148,7 @@ class Main implements EventListenerObject {
                         let cb = this.recuperarElemento("cb_" + item.id);
                         cb.addEventListener("click", this);
                     }
+             
                 } else {
                     alert("ERROR en la consulta");
                 }

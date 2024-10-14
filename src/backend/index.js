@@ -55,31 +55,15 @@ app.post('/device/',function(req,res){
     
 })
 
-app.get('/devices/', function(req, res, next) {
-    
-    devices = [
-        { 
-            'id': 1, 
-            'name': 'Lampara 1', 
-            'description': 'Luz living', 
-            'state': 0, 
-            'type': 1, 
-        },
-        { 
-            'id': 2, 
-            'name': 'Ventilador 1', 
-            'description': 'Ventilador Habitacion', 
-            'state': 1, 
-            'type': 2, 
-        }, { 
-            'id': 3, 
-            'name': 'Luz Cocina 1', 
-            'description': 'Cocina', 
-            'state': 1, 
-            'type': 2, 
-        },
-    ]
-    res.send(JSON.stringify(devices)).status(200);
+app.get('/devices/', async (req, res, next) => {
+    // Dispositivos reales de la base de datos
+    utils.query("SELECT * FROM Devices", async (error, respuesta, fields) => {
+        if (error) {
+          handleSQLError(res, error);
+        } else {
+          res.status(200).json(await respuesta);
+        }
+      });
 });
 
 app.listen(PORT, function(req, res) {
