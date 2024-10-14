@@ -154,9 +154,9 @@ class Main implements EventListenerObject {
                         <li class="collection-item avatar">
                         <img src="./static/images/lightbulb.png" alt="" class="circle">
                         <span class="title">${item.name}</span>
-                        <p>${item.description} 
+                        <p>${item.description}<br><i>Tipo:</i> ${item.type}
                         </p>
-                        <a href="#!" class="secondary-content">
+                        <div class="secondary-content">
                           <div class="switch">
                               <label>
                                 Off`;
@@ -169,15 +169,17 @@ class Main implements EventListenerObject {
                                 <span class="lever"></span>
                                 On
                               </label>
-                            </div>
-                             
-                      </a>
-                        <button id="edit_${item.id}" class="btn-floating btn-small blue" style="margin-left: 10px;">
-                            <i class="material-icons">edit</i>
-                        </button>
-                        <button id="delete_${item.id}" class="btn-floating btn-small red" style="margin-left: 10px;">
-                            <i class="material-icons">close</i>
-                        </button>
+                        </div>
+                        <div>
+                             <a class="btn-floating btn-small blue" id="edit_${item.id}" style="margin-right: 10px;">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a class="btn-floating btn-small red" id="delete_${item.id}">
+                                <i class="material-icons">close</i>
+                            </a>
+                        </div>
+                           
+                      </div>
                       </li>`
                      
                         
