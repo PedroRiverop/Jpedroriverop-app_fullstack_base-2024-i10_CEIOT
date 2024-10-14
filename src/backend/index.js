@@ -66,6 +66,7 @@ app.get('/devices/', async (req, res, next) => {
       });
 });
 
+// Agregar Dispositivo
 app.post('/device/new', (req, res) => {
     const { name, description, state, type } = req.body;
 
@@ -82,6 +83,20 @@ app.post('/device/new', (req, res) => {
     } else {
         res.status(400).json({ error: "Datos incompletos para crear el dispositivo" });
     }
+});
+
+//Eliminar dispositivo
+app.delete('/device/:id', (req, res) => {
+    const deviceId = req.params.id;
+
+    const query = "DELETE FROM Devices WHERE id = ?";
+    utils.query(query, [deviceId], (error, respuesta, fields) => {
+        if (error) {
+            res.status(409).json({ error: error.sqlMessage });
+        } else {
+            res.status(200).json({ mensaje: "Dispositivo eliminado exitosamente!" });
+        }
+    });
 });
 
 app.listen(PORT, function(req, res) {

@@ -168,7 +168,11 @@ class Main implements EventListenerObject {
                                 On
                               </label>
                             </div>
+                             
                       </a>
+                         <button id="delete_${item.id}" class="btn-floating btn-small red" style="margin-left: 10px;">
+                            <i class="material-icons">close</i>
+                        </button>
                       </li>`
                      
                         
@@ -178,6 +182,10 @@ class Main implements EventListenerObject {
                     for (let item of lista) {
                         let cb = this.recuperarElemento("cb_" + item.id);
                         cb.addEventListener("click", this);
+                        
+                        //event listeners a los botones de eliminar
+                        let btnEliminar = this.recuperarElemento(`delete_${item.id}`);
+                        btnEliminar.addEventListener('click', () => this.eliminarDevice(item.id));
                     }
              
                 } else {
@@ -196,6 +204,25 @@ class Main implements EventListenerObject {
 
     private recuperarElemento(id: string):HTMLInputElement {
         return <HTMLInputElement>document.getElementById(id);
+    }
+
+    //Funcion eliminar dispositivo
+    private eliminarDevice(id: number): void {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("DELETE", `http://localhost:8000/device/${id}`, true);
+    
+        xmlHttp.onreadystatechange = () => {
+            if (xmlHttp.readyState === 4) {
+                if (xmlHttp.status === 200) {
+                    console.log("Dispositivo eliminado exitosamente");
+                    this.buscarDevices();  // Actualizar la lista después de la eliminación
+                } else {
+                    console.error("Error al eliminar el dispositivo");
+                }
+            }
+        };
+    
+        xmlHttp.send();
     }
 }
 window.addEventListener('load', () => {
