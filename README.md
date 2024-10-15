@@ -162,7 +162,8 @@ En el frontend, al hacer clic en "Agregar dispositivo", se despliega un formular
 
  El backend, utilizando Node.js y Express, maneja la solicitud en la ruta /device/new. Verifica que los datos recibidos (nombre, descripción, estado y tipo) sean válidos antes de insertar el nuevo dispositivo en la tabla Devices.
 
- ![architecture](doc/formAddDevice.png)
+![architecture](doc/formAddDevice.png)
+
 
 ### Editar Dispositivo
 Cada dispositivo tiene un botón de edición que, al hacer clic, abre un modal con los campos precargados con el nombre, descripción y tipo del dispositivo seleccionado. Los cambios se aplican enviando una solicitud PUT al backend.
@@ -180,12 +181,12 @@ En el Backend: El backend maneja la eliminación con la ruta /device/:id, elimin
 Un botón "Ocultar dispositivos" alterna entre mostrar u ocultar la lista de dispositivos. Esta función se gestiona en el frontend con manipulación del DOM, ocultando el contenedor de la lista.
 
 **Iconos según el tipo de dispositivo:**
-Los dispositivos muestran un icono representativo dependiendo de su tipo:
-Tipo 0: undefined.png   ![architecture](src/frontend/static/images/undefined.png)
-Tipo 1: bombilla.png    ![architecture](src/frontend/static/images/bombilla.png)
-Tipo 2: sonido.png  ![architecture](src/frontend/static/images/sonido.png)
-Tipo 3: monitor.png ![architecture](src/frontend/static/images/monitor.png)
-Tipo 4: persiana.png    ![architecture](src/frontend/static/images/persiana.png)
+Los dispositivos muestran un icono representativo dependiendo de su tipo: <br>
+Tipo 0: undefined.png   ![architecture](src/frontend/static/images/undefined.png)<br>
+Tipo 1: bombilla.png    ![architecture](src/frontend/static/images/bombilla.png)<br>
+Tipo 2: sonido.png  ![architecture](src/frontend/static/images/sonido.png)<br>
+Tipo 3: monitor.png ![architecture](src/frontend/static/images/monitor.png)<br>
+Tipo 4: persiana.png    ![architecture](src/frontend/static/images/persiana.png)<br>
 El frontend incluye esta lógica al renderizar la lista de dispositivos, seleccionando la imagen correspondiente de acuerdo al tipo.
 
 **Botón "Help":**
