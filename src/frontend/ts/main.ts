@@ -150,9 +150,30 @@ class Main implements EventListenerObject {
                     let lista: Array<Device> = JSON.parse(xmlHttp.responseText);
                     
                     for (let item of lista) {
+                        // Modificar el Icono en funcion al tipo de dispositivo
+                        let imagen = "";
+                            switch (item.type) {
+                                case 0:
+                                    imagen = "./static/images/undefined.png"; // Tipo 0: Imagen "undefined"
+                                    break;
+                                case 1:
+                                    imagen = "./static/images/bombilla.png"; // Tipo 1: Imagen "bombilla"
+                                    break;
+                                case 2:
+                                    imagen = "./static/images/sonido.png"; // Tipo 2: Imagen "sonido"
+                                    break;
+                                case 3:
+                                    imagen = "./static/images/monitor.png"; // Tipo 3: Imagen "monitor"
+                                    break;
+                                case 4:
+                                    imagen = "./static/images/persiana.png"; // Tipo 4: Imagen "persiana"
+                                    break;
+                                default:
+                                    imagen = "./static/images/undefined.png"; // Valor por defecto
+                            }
                         listaDevices += `
                         <li class="collection-item avatar">
-                        <img src="./static/images/lightbulb.png" alt="" class="circle">
+                        <img src="${imagen}" alt="" class="circle">
                         <span class="title">${item.name}</span>
                         <p>${item.description}<br><i>Tipo:</i> ${item.type}
                         </p>
@@ -171,7 +192,7 @@ class Main implements EventListenerObject {
                               </label>
                         </div>
                         <div>
-                             <a class="btn-floating btn-small blue" id="edit_${item.id}" style="margin-right: 10px;">
+                             <a class="btn-floating btn-small blue" id="edit_${item.id}" style="margin-right: 10px; margin-left: 20px">
                                 <i class="material-icons">edit</i>
                             </a>
                             <a class="btn-floating btn-small red" id="delete_${item.id}">
