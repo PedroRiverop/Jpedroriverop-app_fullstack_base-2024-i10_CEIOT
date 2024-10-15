@@ -168,6 +168,9 @@ class Main implements EventListenerObject {
                                 case 4:
                                     imagen = "./static/images/persiana.png"; // Tipo 4: Imagen "persiana"
                                     break;
+                                case 5:
+                                    imagen = "./static/images/enchufe.png"; // Tipo 5: Imagen "enchufe, varios"
+                                    break;    
                                 default:
                                     imagen = "./static/images/undefined.png"; // Valor por defecto
                             }

@@ -45,12 +45,12 @@ CREATE TABLE `Devices` (
 --
 
 INSERT INTO `Devices` (`id`, `name`, `description`, `state`, `type`) VALUES
-(1, 'Lampara 1', 'Luz living', 1, 0),
-(2, 'Lampara 2', 'Luz cocina', 0, 0),
-(3, 'Velador', 'Velador living', 1, 0),
-(4, 'Persiana 1', 'Persiana living', 1, 1),
-(5, 'Persiana 2', 'Persiana de la cocina', 1, 1),
-(6, 'Persiana 3', 'Persiana balcon', 0, 1);
+(1, 'Lampara 1', 'Luz living', 1, 1),
+(2, 'Estereo', 'Parlante Cocina', 2, 0),
+(3, 'Tv Sala', 'Televisor', 3, 0),
+(4, 'Persiana 1', 'Persiana living', 4, 1),
+(5, 'Velador', 'Habitación 1', 0, 1),
+(6, 'Electrodomestico', 'Cafetera', 5, 1);
 
 --
 -- Indexes for dumped tables
