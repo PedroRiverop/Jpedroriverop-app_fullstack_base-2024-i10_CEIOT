@@ -11,11 +11,11 @@ Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistem
 
 La aplicación IoT de base que viene con este proyecto se encarga de crear una tabla llamada `Devices` en la base de datos, y la idea es que vos puedas desarrollar el código de backend y frontend que te permita controlar desde el navegador el estado de los devices de un hogar inteligente - *como pueden ser luces, TVs, ventiladores, persianas, enchufes y otros* - y almacenar los estados de cada uno en la base de datos. 
 
-Realizando estas tareas vas a a tener una aplicación fullstack IoT del mundo real que utiliza tecnologías actuales en la que un backend es capaz de interactuar con una DB para cumplir con las peticiones de control que se le mandan desde el cliente web.
+se implementaron varias funcionalidades clave, como la búsqueda de dispositivos, la capacidad de ocultar/mostrar la lista de dispositivos, agregar nuevos dispositivos, y editar o eliminar los existentes. Además, se añadió un botón "Help" que enlaza a la documentación, y se utilizan iconos representativos para cada tipo de dispositivo.
 
-En esta imagen podés ver una posible implementación del cliente web que controla los artefactos del hogar.
+En esta imagen se observa una vista previa del SPA.
 
-![architecture](doc/webapp-example-1.png)
+![architecture](doc/home.png)
 
 ## Comenzando 🚀
 
@@ -93,7 +93,7 @@ En esta sección vas a encontrar las características más relevantes del proyec
 
 Como ya pudiste ver, la aplicación se ejecuta sobre el ecosistema Docker, y en esta imagen podés ver el diagrama de arquitectura.
 
-![architecture](doc/architecture.png)
+![architecture](doc/home.png)
 
 ### El cliente web
 
@@ -158,15 +158,64 @@ En esta sección podés ver los detalles específicos de funcionamiento del cód
 
 ### Agregar un dispositivo
 
-Completá los pasos para agregar un dispositivo desde el cliente web.
+En el frontend, al hacer clic en "Agregar dispositivo", se despliega un formulario que permite ingresar el nombre, descripción y tipo de dispositivo. Al enviar los datos, se realiza una solicitud POST al backend a través de AJAX, donde la información se guarda en la base de datos.
+
+ El backend, utilizando Node.js y Express, maneja la solicitud en la ruta /device/new. Verifica que los datos recibidos (nombre, descripción, estado y tipo) sean válidos antes de insertar el nuevo dispositivo en la tabla Devices.
+
+ ![architecture](doc/formAddDevice.png)
+
+### Editar Dispositivo
+Cada dispositivo tiene un botón de edición que, al hacer clic, abre un modal con los campos precargados con el nombre, descripción y tipo del dispositivo seleccionado. Los cambios se aplican enviando una solicitud PUT al backend.
+
+En el Backend: La ruta /device/:id maneja la actualización de dispositivos. El backend recibe los nuevos datos, verifica que el nombre, descripción y tipo estén presentes, y luego actualiza la base de datos.
+
+### Eliminar Dispositivos
+Los dispositivos también tienen un botón "Eliminar", que borra el dispositivo seleccionado. Este botón dispara una solicitud DELETE al backend.
+
+En el Backend: El backend maneja la eliminación con la ruta /device/:id, eliminando el dispositivo con el ID correspondiente de la base de datos.
 
 ### Frontend
 
-Completá todos los detalles sobre cómo armaste el frontend, sus interacciones, etc.
+**Funcionalidad "Ocultar/Mostrar Dispositivos":**
+Un botón "Ocultar dispositivos" alterna entre mostrar u ocultar la lista de dispositivos. Esta función se gestiona en el frontend con manipulación del DOM, ocultando el contenedor de la lista.
+
+**Iconos según el tipo de dispositivo:**
+Los dispositivos muestran un icono representativo dependiendo de su tipo:
+Tipo 0: undefined.png   ![architecture](src/frontend/static/images/undefined.png)
+Tipo 1: bombilla.png    ![architecture](src/frontend/static/images/bombilla.png)
+Tipo 2: sonido.png  ![architecture](src/frontend/static/images/sonido.png)
+Tipo 3: monitor.png ![architecture](src/frontend/static/images/monitor.png)
+Tipo 4: persiana.png    ![architecture](src/frontend/static/images/persiana.png)
+El frontend incluye esta lógica al renderizar la lista de dispositivos, seleccionando la imagen correspondiente de acuerdo al tipo.
+
+**Botón "Help":**
+El botón "Help" enlaza al archivo README del proyecto en GitHub para consultar la documentación y ayuda relacionada con el proyecto.
 
 ### Backend
 
-Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
+El backend de esta aplicación utiliza Node.js y Express para gestionar solicitudes HTTP y operar con una base de datos MySQL que almacena los dispositivos.
+
+**GET /devices:** Recupera la lista de dispositivos almacenados en la base de datos y los devuelve al frontend en formato JSON.
+**POST /device/new:** Permite agregar un nuevo dispositivo. Se recibe un objeto con los datos del dispositivo (nombre, descripción, tipo, etc.) y se inserta en la base de datos.
+**PUT /device/:** Actualiza la información de un dispositivo existente. Los datos del dispositivo se reciben del frontend, y el backend actualiza el registro correspondiente en la base de datos usando el id.
+**DELETE /device/:** Elimina un dispositivo de la base de datos, identificándolo mediante su id.
+
+**Interacción con el Cliente Web:**
+El frontend realiza solicitudes AJAX (XMLHttpRequest) para interactuar con las APIs del backend:
+
+Al buscar dispositivos: El frontend envía una solicitud GET a /devices para obtener todos los dispositivos. El backend consulta la base de datos y devuelve un array de objetos JSON que contienen los datos de los dispositivos.
+Al agregar un dispositivo: Se utiliza POST para enviar un objeto con los detalles del dispositivo al backend, que luego lo almacena en la base de datos.
+Al editar un dispositivo: La edición se maneja con una solicitud PUT que actualiza un dispositivo existente basado en su id, enviando los nuevos datos al backend.
+Al eliminar un dispositivo: Se envía una solicitud DELETE con el id del dispositivo, que luego el backend utiliza para eliminarlo de la base de datos.
+
+**Interacción con la Base de Datos (MySQL):**
+El backend se comunica con una base de datos MySQL mediante un módulo de conexión (mysql-connector). La base de datos contiene una tabla Devices que almacena los siguientes campos:
+
+id (autoincremental): Identificador único de cada dispositivo.
+name: El nombre del dispositivo.
+description: Descripción del dispositivo.
+state: El estado del dispositivo (encendido/apagado).
+type: El tipo de dispositivo (ej. bombilla (1), monitor (2), sonido (3), etc.).
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
 
